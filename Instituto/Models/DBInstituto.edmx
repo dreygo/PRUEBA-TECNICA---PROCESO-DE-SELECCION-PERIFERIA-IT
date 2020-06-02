@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="InstitutoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="alumno">
+          <Key>
+            <PropertyRef Name="alum_id" />
+          </Key>
+          <Property Name="alum_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="alum_nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="alum_apellido" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="alum_cedula" Type="int" Nullable="false" />
+          <Property Name="alum_fecha_nacimiento" Type="datetime" Nullable="false" />
+          <Property Name="alum_correo" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="alumno_curso">
+          <Key>
+            <PropertyRef Name="ac_id" />
+          </Key>
+          <Property Name="ac_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="alum_id" Type="int" Nullable="false" />
+          <Property Name="cur_id" Type="int" Nullable="false" />
+          <Property Name="per_id" Type="int" Nullable="false" />
+          <Property Name="ac_nota" Type="float" />
+        </EntityType>
+        <EntityType Name="curso">
+          <Key>
+            <PropertyRef Name="cur_id" />
+          </Key>
+          <Property Name="cur_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cur_nombre" Type="nvarchar" MaxLength="70" Nullable="false" />
+        </EntityType>
+        <EntityType Name="programa">
+          <Key>
+            <PropertyRef Name="pro_id" />
+          </Key>
+          <Property Name="pro_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pro_nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Instituto.dbo.programa_curso' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="programa_curso">
+          <Key>
+            <PropertyRef Name="pro_id" />
+            <PropertyRef Name="cur_id" />
+          </Key>
+          <Property Name="pro_id" Type="int" Nullable="false" />
+          <Property Name="cur_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_alumno_curso_alumno">
+          <End Role="alumno" Type="Self.alumno" Multiplicity="1" />
+          <End Role="alumno_curso" Type="Self.alumno_curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alumno">
+              <PropertyRef Name="alum_id" />
+            </Principal>
+            <Dependent Role="alumno_curso">
+              <PropertyRef Name="alum_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_alumno_curso_curso">
+          <End Role="curso" Type="Self.curso" Multiplicity="1" />
+          <End Role="alumno_curso" Type="Self.alumno_curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curso">
+              <PropertyRef Name="cur_id" />
+            </Principal>
+            <Dependent Role="alumno_curso">
+              <PropertyRef Name="cur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_programa_cuarso_curso">
+          <End Role="curso" Type="Self.curso" Multiplicity="1" />
+          <End Role="programa_curso" Type="Self.programa_curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curso">
+              <PropertyRef Name="cur_id" />
+            </Principal>
+            <Dependent Role="programa_curso">
+              <PropertyRef Name="cur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_programa_curso_programa">
+          <End Role="programa" Type="Self.programa" Multiplicity="1" />
+          <End Role="programa_curso" Type="Self.programa_curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="programa">
+              <PropertyRef Name="pro_id" />
+            </Principal>
+            <Dependent Role="programa_curso">
+              <PropertyRef Name="pro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="FUN_CalcEdad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="dt1" Type="date" Mode="In" />
+          <Parameter Name="dt2" Type="date" Mode="In" />
+        </Function>
+        <Function Name="SP_CONSULTAR_ALUMNO_CURSOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_alum_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_EDITAR_PROGRAMA_ALUMNO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_alum_id" Type="int" Mode="In" />
+          <Parameter Name="par_pro_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_RELACION_ALUMNO_CURSOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_alum_id" Type="int" Mode="In" />
+          <Parameter Name="par_pro_id" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="InstitutoModelStoreContainer">
+          <EntitySet Name="alumno" EntityType="Self.alumno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="alumno_curso" EntityType="Self.alumno_curso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="curso" EntityType="Self.curso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="programa" EntityType="Self.programa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="programa_curso" EntityType="Self.programa_curso" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [programa_curso].[pro_id] AS [pro_id], 
+    [programa_curso].[cur_id] AS [cur_id]
+    FROM [dbo].[programa_curso] AS [programa_curso]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_alumno_curso_alumno" Association="Self.FK_alumno_curso_alumno">
+            <End Role="alumno" EntitySet="alumno" />
+            <End Role="alumno_curso" EntitySet="alumno_curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_alumno_curso_curso" Association="Self.FK_alumno_curso_curso">
+            <End Role="curso" EntitySet="curso" />
+            <End Role="alumno_curso" EntitySet="alumno_curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_programa_cuarso_curso" Association="Self.FK_programa_cuarso_curso">
+            <End Role="curso" EntitySet="curso" />
+            <End Role="programa_curso" EntitySet="programa_curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_programa_curso_programa" Association="Self.FK_programa_curso_programa">
+            <End Role="programa" EntitySet="programa" />
+            <End Role="programa_curso" EntitySet="programa_curso" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="InstitutoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="alumno">
+          <Key>
+            <PropertyRef Name="alum_id" />
+          </Key>
+          <Property Name="alum_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="alum_nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="alum_apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="alum_cedula" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="alumno_curso" Relationship="Self.FK_alumno_curso_alumno" FromRole="alumno" ToRole="alumno_curso" />
+          <Property Name="alum_fecha_nacimiento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="alum_correo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="alumno_curso">
+          <Key>
+            <PropertyRef Name="ac_id" />
+          </Key>
+          <Property Name="ac_id" Type="Int32" Nullable="false" />
+          <Property Name="alum_id" Type="Int32" Nullable="false" />
+          <Property Name="cur_id" Type="Int32" Nullable="false" />
+          <Property Name="per_id" Type="Int32" Nullable="false" />
+          <Property Name="ac_nota" Type="Double" />
+          <NavigationProperty Name="alumno" Relationship="Self.FK_alumno_curso_alumno" FromRole="alumno_curso" ToRole="alumno" />
+          <NavigationProperty Name="curso" Relationship="Self.FK_alumno_curso_curso" FromRole="alumno_curso" ToRole="curso" />
+        </EntityType>
+        <EntityType Name="curso">
+          <Key>
+            <PropertyRef Name="cur_id" />
+          </Key>
+          <Property Name="cur_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cur_nombre" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="alumno_curso" Relationship="Self.FK_alumno_curso_curso" FromRole="curso" ToRole="alumno_curso" />
+          <NavigationProperty Name="programa" Relationship="Self.programa_curso" FromRole="curso" ToRole="programa" />
+        </EntityType>
+        <EntityType Name="programa">
+          <Key>
+            <PropertyRef Name="pro_id" />
+          </Key>
+          <Property Name="pro_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pro_nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="curso" Relationship="Self.programa_curso" FromRole="programa" ToRole="curso" />
+        </EntityType>
+        <Association Name="FK_alumno_curso_alumno">
+          <End Role="alumno" Type="Self.alumno" Multiplicity="1" />
+          <End Role="alumno_curso" Type="Self.alumno_curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alumno">
+              <PropertyRef Name="alum_id" />
+            </Principal>
+            <Dependent Role="alumno_curso">
+              <PropertyRef Name="alum_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_alumno_curso_curso">
+          <End Role="curso" Type="Self.curso" Multiplicity="1" />
+          <End Role="alumno_curso" Type="Self.alumno_curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curso">
+              <PropertyRef Name="cur_id" />
+            </Principal>
+            <Dependent Role="alumno_curso">
+              <PropertyRef Name="cur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="programa_curso">
+          <End Role="curso" Type="Self.curso" Multiplicity="*" />
+          <End Role="programa" Type="Self.programa" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="InstitutoEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="alumno" EntityType="Self.alumno" />
+          <EntitySet Name="alumno_curso" EntityType="Self.alumno_curso" />
+          <EntitySet Name="curso" EntityType="Self.curso" />
+          <EntitySet Name="programa" EntityType="Self.programa" />
+          <AssociationSet Name="FK_alumno_curso_alumno" Association="Self.FK_alumno_curso_alumno">
+            <End Role="alumno" EntitySet="alumno" />
+            <End Role="alumno_curso" EntitySet="alumno_curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_alumno_curso_curso" Association="Self.FK_alumno_curso_curso">
+            <End Role="curso" EntitySet="curso" />
+            <End Role="alumno_curso" EntitySet="alumno_curso" />
+          </AssociationSet>
+          <AssociationSet Name="programa_curso" Association="Self.programa_curso">
+            <End Role="curso" EntitySet="curso" />
+            <End Role="programa" EntitySet="programa" />
+          </AssociationSet>
+          <FunctionImport Name="SP_RELACION_ALUMNO_CURSOS">
+            <Parameter Name="par_alum_id" Mode="In" Type="Int32" />
+            <Parameter Name="par_pro_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_ALUMNO_CURSOS" ReturnType="Collection(InstitutoModel.SP_CONSULTAR_ALUMNO_CURSOS_Result)">
+          <Parameter Name="par_alum_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_EDITAR_PROGRAMA_ALUMNO">
+            <Parameter Name="par_alum_id" Mode="In" Type="Int32" />
+            <Parameter Name="par_pro_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="SP_CONSULTAR_ALUMNO_CURSOS_Result">
+          <Property Type="String" Name="alum_nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="alum_apellido" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="pro_nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="cur_nombre" Nullable="false" MaxLength="70" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="InstitutoModelStoreContainer" CdmEntityContainer="InstitutoEntities2">
+          <EntitySetMapping Name="alumno">
+            <EntityTypeMapping TypeName="InstitutoModel.alumno">
+              <MappingFragment StoreEntitySet="alumno">
+                <ScalarProperty Name="alum_correo" ColumnName="alum_correo" />
+                <ScalarProperty Name="alum_fecha_nacimiento" ColumnName="alum_fecha_nacimiento" />
+                <ScalarProperty Name="alum_id" ColumnName="alum_id" />
+                <ScalarProperty Name="alum_nombre" ColumnName="alum_nombre" />
+                <ScalarProperty Name="alum_apellido" ColumnName="alum_apellido" />
+                <ScalarProperty Name="alum_cedula" ColumnName="alum_cedula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="alumno_curso">
+            <EntityTypeMapping TypeName="InstitutoModel.alumno_curso">
+              <MappingFragment StoreEntitySet="alumno_curso">
+                <ScalarProperty Name="ac_id" ColumnName="ac_id" />
+                <ScalarProperty Name="alum_id" ColumnName="alum_id" />
+                <ScalarProperty Name="cur_id" ColumnName="cur_id" />
+                <ScalarProperty Name="per_id" ColumnName="per_id" />
+                <ScalarProperty Name="ac_nota" ColumnName="ac_nota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="curso">
+            <EntityTypeMapping TypeName="InstitutoModel.curso">
+              <MappingFragment StoreEntitySet="curso">
+                <ScalarProperty Name="cur_id" ColumnName="cur_id" />
+                <ScalarProperty Name="cur_nombre" ColumnName="cur_nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="programa">
+            <EntityTypeMapping TypeName="InstitutoModel.programa">
+              <MappingFragment StoreEntitySet="programa">
+                <ScalarProperty Name="pro_id" ColumnName="pro_id" />
+                <ScalarProperty Name="pro_nombre" ColumnName="pro_nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="programa_curso" TypeName="InstitutoModel.programa_curso" StoreEntitySet="programa_curso">
+            <EndProperty Name="curso">
+              <ScalarProperty Name="cur_id" ColumnName="cur_id" />
+            </EndProperty>
+            <EndProperty Name="programa">
+              <ScalarProperty Name="pro_id" ColumnName="pro_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="SP_RELACION_ALUMNO_CURSOS" FunctionName="InstitutoModel.Store.SP_RELACION_ALUMNO_CURSOS" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_ALUMNO_CURSOS" FunctionName="InstitutoModel.Store.SP_CONSULTAR_ALUMNO_CURSOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="InstitutoModel.SP_CONSULTAR_ALUMNO_CURSOS_Result">
+                <ScalarProperty Name="alum_nombre" ColumnName="alum_nombre" />
+                <ScalarProperty Name="alum_apellido" ColumnName="alum_apellido" />
+                <ScalarProperty Name="pro_nombre" ColumnName="pro_nombre" />
+                <ScalarProperty Name="cur_nombre" ColumnName="cur_nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_EDITAR_PROGRAMA_ALUMNO" FunctionName="InstitutoModel.Store.SP_EDITAR_PROGRAMA_ALUMNO" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

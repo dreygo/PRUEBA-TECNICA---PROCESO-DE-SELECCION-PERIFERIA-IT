@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="InstitutoModelStoreContainer" CdmEntityContainer="InstitutoEntities2">
+    <EntitySetMapping Name="alumno">
+      <EntityTypeMapping TypeName="InstitutoModel.alumno">
+        <MappingFragment StoreEntitySet="alumno">
+          <ScalarProperty Name="alum_correo" ColumnName="alum_correo" />
+          <ScalarProperty Name="alum_fecha_nacimiento" ColumnName="alum_fecha_nacimiento" />
+          <ScalarProperty Name="alum_id" ColumnName="alum_id" />
+          <ScalarProperty Name="alum_nombre" ColumnName="alum_nombre" />
+          <ScalarProperty Name="alum_apellido" ColumnName="alum_apellido" />
+          <ScalarProperty Name="alum_cedula" ColumnName="alum_cedula" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="alumno_curso">
+      <EntityTypeMapping TypeName="InstitutoModel.alumno_curso">
+        <MappingFragment StoreEntitySet="alumno_curso">
+          <ScalarProperty Name="ac_id" ColumnName="ac_id" />
+          <ScalarProperty Name="alum_id" ColumnName="alum_id" />
+          <ScalarProperty Name="cur_id" ColumnName="cur_id" />
+          <ScalarProperty Name="per_id" ColumnName="per_id" />
+          <ScalarProperty Name="ac_nota" ColumnName="ac_nota" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="curso">
+      <EntityTypeMapping TypeName="InstitutoModel.curso">
+        <MappingFragment StoreEntitySet="curso">
+          <ScalarProperty Name="cur_id" ColumnName="cur_id" />
+          <ScalarProperty Name="cur_nombre" ColumnName="cur_nombre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="programa">
+      <EntityTypeMapping TypeName="InstitutoModel.programa">
+        <MappingFragment StoreEntitySet="programa">
+          <ScalarProperty Name="pro_id" ColumnName="pro_id" />
+          <ScalarProperty Name="pro_nombre" ColumnName="pro_nombre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="programa_curso" TypeName="InstitutoModel.programa_curso" StoreEntitySet="programa_curso">
+      <EndProperty Name="curso">
+        <ScalarProperty Name="cur_id" ColumnName="cur_id" />
+      </EndProperty>
+      <EndProperty Name="programa">
+        <ScalarProperty Name="pro_id" ColumnName="pro_id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="SP_RELACION_ALUMNO_CURSOS" FunctionName="InstitutoModel.Store.SP_RELACION_ALUMNO_CURSOS" />
+    <FunctionImportMapping FunctionImportName="SP_CONSULTAR_ALUMNO_CURSOS" FunctionName="InstitutoModel.Store.SP_CONSULTAR_ALUMNO_CURSOS">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="InstitutoModel.SP_CONSULTAR_ALUMNO_CURSOS_Result">
+          <ScalarProperty Name="alum_nombre" ColumnName="alum_nombre" />
+          <ScalarProperty Name="alum_apellido" ColumnName="alum_apellido" />
+          <ScalarProperty Name="pro_nombre" ColumnName="pro_nombre" />
+          <ScalarProperty Name="cur_nombre" ColumnName="cur_nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_EDITAR_PROGRAMA_ALUMNO" FunctionName="InstitutoModel.Store.SP_EDITAR_PROGRAMA_ALUMNO" />
+  </EntityContainerMapping>
+</Mapping>

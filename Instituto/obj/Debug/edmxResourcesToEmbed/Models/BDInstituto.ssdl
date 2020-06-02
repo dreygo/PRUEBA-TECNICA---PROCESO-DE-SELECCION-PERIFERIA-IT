@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InstitutoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="alumno">
+    <Key>
+      <PropertyRef Name="alum_id" />
+    </Key>
+    <Property Name="alum_id" Type="int" Nullable="false" />
+    <Property Name="alum_nombre" Type="varbinary" MaxLength="50" Nullable="false" />
+    <Property Name="alum_apellido" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="alum_cedula" Type="nchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="alumno_curso">
+    <Key>
+      <PropertyRef Name="ac_id" />
+    </Key>
+    <Property Name="ac_id" Type="int" Nullable="false" />
+    <Property Name="alum_id" Type="int" Nullable="false" />
+    <Property Name="cur_id" Type="int" Nullable="false" />
+    <Property Name="per_id" Type="int" Nullable="false" />
+    <Property Name="ac_nota" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="curso">
+    <Key>
+      <PropertyRef Name="cur_id" />
+    </Key>
+    <Property Name="cur_id" Type="int" Nullable="false" />
+    <Property Name="cur_nombre" Type="nvarchar" MaxLength="50" />
+    <Property Name="cur_abreviatura" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="periodo">
+    <Key>
+      <PropertyRef Name="per_id" />
+    </Key>
+    <Property Name="per_id" Type="int" Nullable="false" />
+    <Property Name="per_nombre" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_alumno_curso_alumno">
+    <End Role="alumno" Type="Self.alumno" Multiplicity="1" />
+    <End Role="alumno_curso" Type="Self.alumno_curso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="alumno">
+        <PropertyRef Name="alum_id" />
+      </Principal>
+      <Dependent Role="alumno_curso">
+        <PropertyRef Name="alum_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_alumno_curso_curso">
+    <End Role="curso" Type="Self.curso" Multiplicity="1" />
+    <End Role="alumno_curso" Type="Self.alumno_curso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="curso">
+        <PropertyRef Name="cur_id" />
+      </Principal>
+      <Dependent Role="alumno_curso">
+        <PropertyRef Name="cur_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_alumno_curso_periodo">
+    <End Role="periodo" Type="Self.periodo" Multiplicity="1" />
+    <End Role="alumno_curso" Type="Self.alumno_curso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="periodo">
+        <PropertyRef Name="per_id" />
+      </Principal>
+      <Dependent Role="alumno_curso">
+        <PropertyRef Name="per_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="InstitutoModelStoreContainer">
+    <EntitySet Name="alumno" EntityType="Self.alumno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="alumno_curso" EntityType="Self.alumno_curso" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="curso" EntityType="Self.curso" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="periodo" EntityType="Self.periodo" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_alumno_curso_alumno" Association="Self.FK_alumno_curso_alumno">
+      <End Role="alumno" EntitySet="alumno" />
+      <End Role="alumno_curso" EntitySet="alumno_curso" />
+    </AssociationSet>
+    <AssociationSet Name="FK_alumno_curso_curso" Association="Self.FK_alumno_curso_curso">
+      <End Role="curso" EntitySet="curso" />
+      <End Role="alumno_curso" EntitySet="alumno_curso" />
+    </AssociationSet>
+    <AssociationSet Name="FK_alumno_curso_periodo" Association="Self.FK_alumno_curso_periodo">
+      <End Role="periodo" EntitySet="periodo" />
+      <End Role="alumno_curso" EntitySet="alumno_curso" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

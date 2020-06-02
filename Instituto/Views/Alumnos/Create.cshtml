@@ -1,0 +1,67 @@
+﻿@model Instituto.Models.ViewModels.CrearAlumnos
+    @{
+        ViewBag.Title = "Crear Alumno";
+    }
+
+    @using (Html.BeginForm("Create", "Alumnos", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <div class="row">
+            <br /><br /><br />
+            @Html.AntiForgeryToken()
+            <h2>@ViewBag.Title</h2>
+            <div>
+                <hr />
+                <div class="form-group">
+                    @Html.LabelFor(d => d.NuevoAlumno.Alum_nombre, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(d => d.NuevoAlumno.Alum_nombre, new { @class = "from-control" })
+                    </div>
+                    <br />
+                    @Html.ValidationMessageFor(d => d.NuevoAlumno.Alum_nombre, null, new { @class = "red" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(d => d.NuevoAlumno.Alum_apellido, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(d => d.NuevoAlumno.Alum_apellido, new { @class = "from-control" })
+                    </div>
+                    <br />
+                    @Html.ValidationMessageFor(d => d.NuevoAlumno.Alum_apellido, null, new { @class = "red" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(d => d.NuevoAlumno.Alum_cedula, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(d => d.NuevoAlumno.Alum_cedula, new { @class = "from-control" })
+                    </div>
+                    <br />
+                    @Html.ValidationMessageFor(d => d.NuevoAlumno.Alum_cedula, null, new { @class = "red" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(d => d.NuevoAlumno.Alum_fecha_nacimiento, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(d => d.NuevoAlumno.Alum_fecha_nacimiento, "", new { @class = "from-control" })
+                    </div>
+                    <br />
+                    @Html.ValidationMessageFor(d => d.NuevoAlumno.Alum_fecha_nacimiento, null, new { @class = "red" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(d => d.NuevoAlumno.Alum_correo, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(d => d.NuevoAlumno.Alum_correo, new { @class = "from-control" })
+                    </div>
+                    <br />
+                    @Html.ValidationMessageFor(d => d.NuevoAlumno.Alum_correo, null, new { @class = "red" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(d => d.NuevoAlumno.Pro_id, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(d => d.NuevoAlumno.Pro_id, Model.Programas.Select(m => new SelectListItem { Text = m.pro_nombre, Value = m.pro_id }),"Seleccione....", new { @class = "from-control" })
+                    </div>
+                    <br />
+                    @Html.ValidationMessageFor(d => d.NuevoAlumno.Pro_id, null, new { @class = "red" })
+                </div>
+            </div>
+            <div>
+                <input value="Guardar" class="btn btn-primary" type="submit" />
+            </div>
+        </div>
+    }

@@ -1,0 +1,32 @@
+﻿@model List<Instituto.Models.ViewModels.ListaCursosAlumnos>
+@{
+    ViewBag.Title = "Lista de cursos por alumno";
+}
+
+
+<div class="row">
+    <br /><br /><br />
+    <h2>@ViewBag.Title</h2>&nbsp
+    <h3>@ViewBag.Message</h3>
+
+    <div class="colmd-12">
+        <div>
+            <h3>Nombre y apellido:</h3> <h4>&nbsp&nbsp&nbsp&nbsp @Model[0].Alum_nombre.ToUpper() @Model[0].Alum_apellido.ToUpper()</h4>
+</div>
+        <div>
+            <h3>Programna:</h3> <h4>&nbsp&nbsp&nbsp&nbsp @Model[0].Pro_nombre.ToUpper()</h4>
+        </div>        
+        <table class="table">
+            <tr>                
+                <th><h4>Curso:</h4></th>
+            </tr>            
+            @foreach (var item in Model)
+            {                
+                <tr>
+                    <td>&nbsp&nbsp&nbsp&nbsp @item.Cur_nombre.ToUpper()</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+

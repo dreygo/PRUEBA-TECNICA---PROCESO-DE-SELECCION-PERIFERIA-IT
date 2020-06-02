@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="InstitutoModelStoreContainer" CdmEntityContainer="InstitutoEntities">
+    <EntitySetMapping Name="alumno">
+      <EntityTypeMapping TypeName="InstitutoModel.alumno">
+        <MappingFragment StoreEntitySet="alumno">
+          <ScalarProperty Name="alum_id" ColumnName="alum_id" />
+          <ScalarProperty Name="alum_nombre" ColumnName="alum_nombre" />
+          <ScalarProperty Name="alum_apellido" ColumnName="alum_apellido" />
+          <ScalarProperty Name="alum_cedula" ColumnName="alum_cedula" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="alumno_curso">
+      <EntityTypeMapping TypeName="InstitutoModel.alumno_curso">
+        <MappingFragment StoreEntitySet="alumno_curso">
+          <ScalarProperty Name="ac_id" ColumnName="ac_id" />
+          <ScalarProperty Name="alum_id" ColumnName="alum_id" />
+          <ScalarProperty Name="cur_id" ColumnName="cur_id" />
+          <ScalarProperty Name="per_id" ColumnName="per_id" />
+          <ScalarProperty Name="ac_nota" ColumnName="ac_nota" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="curso">
+      <EntityTypeMapping TypeName="InstitutoModel.curso">
+        <MappingFragment StoreEntitySet="curso">
+          <ScalarProperty Name="cur_id" ColumnName="cur_id" />
+          <ScalarProperty Name="cur_nombre" ColumnName="cur_nombre" />
+          <ScalarProperty Name="cur_abreviatura" ColumnName="cur_abreviatura" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="periodo">
+      <EntityTypeMapping TypeName="InstitutoModel.periodo">
+        <MappingFragment StoreEntitySet="periodo">
+          <ScalarProperty Name="per_id" ColumnName="per_id" />
+          <ScalarProperty Name="per_nombre" ColumnName="per_nombre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

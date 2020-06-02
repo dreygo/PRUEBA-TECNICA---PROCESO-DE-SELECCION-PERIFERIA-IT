@@ -1,0 +1,48 @@
+﻿@model List<Instituto.Models.ViewModels.ListAlumnos>
+@{
+    ViewBag.Title = "Aplicación pequeña en MVC,POO, y CRUD ";
+    ViewBag.Message = "Lista Alumnos";
+}
+
+
+<div class="row">
+    <br/><br /><br />
+    <h2>@ViewBag.Title</h2>
+    <h3>@ViewBag.Message</h3>
+
+    <div class="colmd-12">
+        <div >
+            <a href="~/Alumnos/Create" class="btn btn-primary">Agregar</a>
+        </div>
+        
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Cedula</th>
+                <th>Edad</th>
+                <th>Correo</th>
+                <th>Acciones</th>
+            </tr>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.Alum_id</td>
+                    <td>
+                        <a href="~/Alumnos/Cursos/@item.Alum_id" class="btn btn-default">@item.Alum_nombre.ToUpper()</a>
+                    </td>
+                    <td>@item.Alum_apellido.ToUpper()</td>
+                    <td>@item.Alum_cedula</td>
+                    <td>@item.Alum_edad</td>
+                    <td>@item.Alum_correo</td>
+                    <td>
+                        <a href="~/Alumnos/Edit/@item.Alum_id" class="btn btn-default">Editar</a>
+                        <a href="~/Alumnos/Delete/@item.Alum_id" class="btn btn-danger">Eliminar</a> 
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
